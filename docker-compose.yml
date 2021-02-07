@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  geo_fpm:
+    container_name: geo_fpm
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    working_dir:
+      /var/www/html
+    networks:
+      - geo_fpm_network
+  geo_redis:
+    container_name: geo_redis
+    image: redis
+    command: ["sh", "-c", "exec redis-server --requirepass \"${REDIS_PASSWORD}\""]
+    networks:
+      - geo_redis_network
+    volumes:
+      - geo_redis_data:/data/redis/data
+    ports:
+      - "${REDIS_PORT}:6379"
+  geo_nginx:
+    container_name: geo_nginx
+    image: nginx:latest
+    ports:
+      - "${NGINX_PORT}:80"
+    depends_on:
+      - geo_fpm
+    networks:
+      - geo_fpm_network
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/geo.conf
+    working_dir:
+      /var/www/html
+networks:
+  geo_fpm_network:
+  geo_redis_network:
+volumes:
+  geo_redis_data:

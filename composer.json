@@ -1,0 +1,19 @@
+{
+  "name": "geo/geo",
+  "type": "project",
+  "require": {
+    "php": "^7.2.0",
+    "ext-json": "*",
+    "ext-redis": "*",
+    "guzzlehttp/guzzle": "^7.0",
+    "vlucas/phpdotenv": "^5.3"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Geo\\": "src"
+    }
+  }
+}
