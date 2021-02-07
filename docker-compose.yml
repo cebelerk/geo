@@ -16,7 +16,7 @@ services:
     image: redis
     command: ["sh", "-c", "exec redis-server --requirepass \"${REDIS_PASSWORD}\""]
     networks:
-      - geo_redis_network
+      - geo_fpm_network
     volumes:
       - geo_redis_data:/data/redis/data
     ports:
@@ -37,6 +37,5 @@ services:
       /var/www/html
 networks:
   geo_fpm_network:
-  geo_redis_network:
 volumes:
   geo_redis_data:
